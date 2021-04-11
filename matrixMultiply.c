@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-
-const int N = 2;
+#define N 900
 /* 
 void print(int arr[N][N])
 {
@@ -34,7 +33,7 @@ int main()
     scanf("%i", &n); */
 
     // Declaring the matrices
-    int first[N][N], second[N][N], mult[N][N];
+    static int first[N][N], second[N][N], mult[N][N];
 
     // Use current time as seed for random generator
     srand(time(0));
@@ -50,8 +49,18 @@ int main()
         }
     }
 
-    //Multiplying the matrices and putting the result on the mult matriz
+    // Start measuring time
+    struct timespec begin, end;
+    clock_gettime(CLOCK_REALTIME, &begin);
     multiplyMatrix(first, second, mult);
+
+    // Stop measuring time and calculate the elapsed time
+    clock_gettime(CLOCK_REALTIME, &end);
+    long seconds = end.tv_sec - begin.tv_sec;
+    long nanoseconds = end.tv_nsec - begin.tv_nsec;
+    double elapsed = seconds + nanoseconds * 1e-9;
+    printf("%lf\n", elapsed);
+    //Multiplying the matrices and putting the result on the mult matriz
     /* print(first);
     print(second);
     print(mult); */
